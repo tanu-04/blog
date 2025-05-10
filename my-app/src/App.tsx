@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import BlogCard from './components/blogcard';
+import Header from './components/header';
 
 function App() {
 
@@ -7,8 +8,9 @@ function App() {
 
   return (
     <div className="flex bg-black justify-center items-center w-full">
-      <div className="flex flex-col items-center align-items:center w-7/12 justify-content:center">
-        <h1 className="text-4xl pt-5 text-white">hi this is the heading</h1>
+      <div className="flex flex-col items-center align-items:center pt-12 w-7/12 justify-content:center">
+        {/* <h1 className="text-4xl pt-5 text-white">hi this is the heading</h1> */}
+        <Header />
         <BlogCard 
           title="Blog Post 1" 
           description="This is a description for the first blog post." 
