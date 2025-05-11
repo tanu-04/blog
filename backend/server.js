@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
+app.post("/testpost", (req, res) => {
+  res.status(200).send("Test POST endpoint reached!");
+});
+
 // Test MongoDB connection
 app.get("/test-mongo", async (req, res) => {
   try {
