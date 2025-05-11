@@ -9,7 +9,7 @@ interface BlogCardProps {
 const BlogCard: React.FC<BlogCardProps> = ({ title, description }) => {
     return (
         <div
-            className="bg-black-800 border border-white rounded-lg p-6 mx-auto shadow-lg w-full my-4 cursor-pointer group" // Added 'group' class
+            className="bg-neutral-800 border border-white rounded-lg p-6 mx-auto shadow-lg w-full my-4 cursor-pointer group" // Added 'group' class
             data-aos="fade-up"
         >
             <h2 className="text-xl font-semibold text-white mb-2 hover:scale-105 transition:transform duration-300">{title}</h2>

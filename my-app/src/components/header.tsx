@@ -19,11 +19,11 @@ const Header: React.FC = () => {
             } text-white`}
         >
             <div className="max-w-screen-xl mx-auto flex justify-between items-center">
-                <h1 className="text-2xl font-bold">LinkedRIT</h1>
+                <h1 className="text-2xl font-bold"><a href="/" className="text:gray-400 hover:text-gray-100">LinkedRIT</a></h1>
                 <nav>
                     <ul className="flex space-x-6">
-                        <li><a href="#auth" className="text:gray-400 hover:text-gray-100">Auth</a></li>
-                        <li><a href="#about" className="text:gray-400 hover:text-gray-100">About</a></li>
+                        <li><a href="login" className="text:gray-400 hover:text-gray-100">Auth</a></li>
+                        <li><a href="#about" className="text:gray-400 hover:text-gray-100">Create</a></li>
                         <li><a href="#contact" className="text:gray-400 hover:text-gray-100">Contact</a></li>
                     </ul>
                 </nav>

@@ -7,7 +7,7 @@ function App() {
   const [aosState, setAosState] = useState("flip-left");
 
   return (
-    <div className="flex bg-black justify-center items-center w-full">
+    <div className="flex bg-neutral-900 justify-center items-center w-full">
       <div className="flex flex-col items-center align-items:center pt-12 w-7/12 justify-content:center">
         {/* <h1 className="text-4xl pt-5 text-white">hi this is the heading</h1> */}
         <Header />
