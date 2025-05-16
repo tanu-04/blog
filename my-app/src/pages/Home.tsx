@@ -28,14 +28,14 @@ const HomePage = () => {
           <span>SiteName</span>
         </div>
         <div className="nav">
-            <nav>
+          <nav>
             <ul className="flex space-x-6 text-lg font-medium">
-                <li><Link to="/login" className="hover:text-gray-300">Auth</Link></li>
-                <li><Link to="/blog" className="hover:text-gray-300">Blog</Link></li>
-                <li><a href="#contact" className="hover:text-gray-300">Contact</a></li>
+              <li><Link to="/login" className="hover:text-gray-300">Auth</Link></li>
+              <li><Link to="/blog" className="hover:text-gray-300">Blog</Link></li>
+              <li><a href="#contact" className="hover:text-gray-300">Contact</a></li>
             </ul>
-            </nav>
-            </div>
+          </nav>
+        </div>
       </header>
 
       {/* Hero Section */}
@@ -60,9 +60,12 @@ const HomePage = () => {
             <p className="text-sm mb-4">
               Your ultimate source for cutting-edge technology insights and news.
             </p>
-            <button className="bg-white text-black px-6 py-2 rounded-full font-medium hover:bg-gray-200">
-              Join Now
-            </button>
+            <Link to="/login">
+              <button className="bg-white text-black px-6 py-2 rounded-full font-medium hover:bg-gray-200 cursor-pointer">
+                Join Now
+              </button>
+            </Link>
+
           </div>
         </div>
       </section>
@@ -81,7 +84,7 @@ const HomePage = () => {
         </div>
       </section>
 
-       / {/* Follow Us Section */}
+      / {/* Follow Us Section */}
       <section className="follow-us">
         <h2>Follow Us</h2>
         <div className="container">
