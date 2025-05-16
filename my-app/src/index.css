@@ -132,7 +132,7 @@ header {
 .social-icon {
   /* flex: 1;  You might not need this if you want the icons to take their intrinsic width */
   max-width: none; /* Allow icons to be their natural size */
-  height: 300px; /* Adjust as needed */
+  height: 400px; /* Adjust as needed */
   cursor: pointer;
   transition: transform 0.3s ease;
   object-fit: contain; /* Maintain aspect ratio */
