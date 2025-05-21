@@ -39,7 +39,15 @@ const Blog = () => {
     <div className="bg-black text-white min-h-screen">
       <Header />
       <main className="pt-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-center">All Posts</h1>
+        <div className="flex flex-row justify-between">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-center">All Posts</h1>
+          <Link to="/newblog">
+            <button className="p-3 bg-neutral border border-white text-white cursor-pointer">
+              none
+            </button>
+          </Link>
+        </div>
+
         <div className="space-y-6">
           {blogData.map((blog, idx) => (
             <BlogCard // Use the BlogCard component here
@@ -55,7 +63,7 @@ const Blog = () => {
           ))}
         </div>
       </main>
-      <footer className="contact-footer">
+      {/* <footer className="contact-footer">
         <div className="contact-left">
           <h3>My Site</h3>
           <p>123-456-7890</p>
@@ -77,7 +85,7 @@ const Blog = () => {
           <a href="/accessibility-statement">Accessibility Statement</a>
           <p>© 2035 by My Site. Powered and secured by <a href="https://wix.com" target="_blank" rel="noopener noreferrer">Wix</a></p>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };

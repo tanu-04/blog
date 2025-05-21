@@ -5,6 +5,7 @@ import "./index.css";
 import Login from "./components/login.tsx";
 import Blog from './pages/Blog.tsx';
 import App from "./App.tsx";
+import CreateBlogForm from "./components/newBlog.tsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
     path: "/blog",
     element: <Blog />,
   },
+  {
+    path:"/newblog",
+    element:<CreateBlogForm />
+  }
 ]);
 
 createRoot(document.getElementById("root")!).render(

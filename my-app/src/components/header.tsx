@@ -24,7 +24,7 @@ const Header: React.FC = () => {
 
         <div className="logo">
             <img src="/logo.png" alt="Logo" />
-            <span>LinkedRit</span>
+            {/* <span>LinkedRit</span> */}
         </div>
 
         <div className="max-w-screen-xl mx-auto flex items-center justify-between relative">
