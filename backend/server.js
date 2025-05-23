@@ -43,11 +43,13 @@ app.get("/test-mongo", async (req, res) => {
 app.post("/signup", async (req, res) => {
   const { username, password } = req.body;
   try {
+    console.log("request contents: " + username);
     const existing = await User.findOne({ username });
-    if (existing) return res.status(400).send("User already exists");
+    if (existing) return res.status(400).json("User already exists");
     const newUser = new User({ username, password });
     await newUser.save();
-    res.send("User registered successfully!");
+    res.json({message: "User registered successfully!", redirectTo:"/login"});
+    // res.redirect("/login");
   } catch (err) {
     res.status(500).send("Error registering user.");
   }
@@ -60,7 +62,9 @@ app.post("/login", async (req, res) => {
     console.log("user : " + username);
     const user = await User.findOne({ username, password });
     if (!user) return res.status(401).send("Invalid credentials");
-    res.send("Login successful!");
+    // res.json("Login successful!");
+    res.json({ message: "User logged in successfully!", redirectTo: "/" });
+
   } catch (err) {
     res.status(500).send("Error logging in.");
   }

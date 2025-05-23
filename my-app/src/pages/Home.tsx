@@ -46,7 +46,7 @@ const HomePage = () => {
       {/* Assuming Header is fixed and 64px tall, add pt-16 to the first section */}
       <section className="flex flex-col md:flex-row min-h-screen w-full bg-black snap-start pt-16">
         {/* Left: Hero Image */}
-        <div className="md:w-1/2 w-full h-1/2 md:h-full">
+        <div className=" w-full h-screen">
           <img
             src="/hero-image.png"
             alt="Hero"
