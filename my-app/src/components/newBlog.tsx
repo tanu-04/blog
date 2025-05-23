@@ -1,5 +1,6 @@
 // src/components/CreateBlogForm.tsx
 import React, { useState, type FormEvent } from 'react';
+import Header from './header';
 
 
 interface FormData {
@@ -67,6 +68,7 @@ const CreateBlogForm: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-neutral-900 flex items-center justify-center p-4">
+      <Header />
       <div className="bg-neutral p-8 rounded-lg border border-white shadow-md w-full max-w-2xl">
         <h2 className="text-3xl font-bold text-white mb-6 text-center">Create New Blog Post</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
