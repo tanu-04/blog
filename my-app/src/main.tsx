@@ -7,6 +7,7 @@ import Blog from './pages/Blog.tsx';
 import App from "./App.tsx";
 import CreateBlogForm from "./components/newBlog.tsx";
 import Signup from "./components/signup.tsx";
+import Profile from './pages/Profile' ;
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path:"/newblog",
     element:<CreateBlogForm />
+  },
+    {
+    path:"/profile",
+    element:<Profile />
   }
 ]);
 

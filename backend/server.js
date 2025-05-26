@@ -21,6 +21,10 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
+  email: { type: String, default: "" },
+  name: { type: String, default: "" },
+  passingYear: { type: String, default: "" },
+  socialLink: { type: String, default: "" },
 });
 
 const User = mongoose.model("User", userSchema);
@@ -69,6 +73,48 @@ app.post("/login", async (req, res) => {
     res.status(500).send("Error logging in.");
   }
 });
+
+// Get user profile (expects username from query)
+app.get("/profile", async (req, res) => {
+  const { username } = req.query;
+  try {
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json("User not found");
+
+    res.json({
+      username: user.username,
+      email: user.email || "",
+      name: user.name || "",
+      passingYear: user.passingYear || "",
+      socialLink: user.socialLink || "",
+    });
+  } catch (err) {
+    res.status(500).send("Error fetching profile.");
+  }
+});
+
+
+// Update user profile (username or password)
+app.put("/profile", async (req, res) => {
+  const { username, newUsername, newPassword, email, name, passingYear, socialLink } = req.body;
+  try {
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json("User not found");
+
+    if (newUsername) user.username = newUsername;
+    if (newPassword) user.password = newPassword;
+    if (email !== undefined) user.email = email;
+    if (name !== undefined) user.name = name;
+    if (passingYear !== undefined) user.passingYear = passingYear;
+    if (socialLink !== undefined) user.socialLink = socialLink;
+
+    await user.save();
+    res.json({ message: "Profile updated successfully!" });
+  } catch (err) {
+    res.status(500).send("Error updating profile.");
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);

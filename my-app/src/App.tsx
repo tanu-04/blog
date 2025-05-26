@@ -4,7 +4,7 @@ import Header from './components/header';
 import HomePage from './pages/Home'; // Renamed Home.tsx to HomePage for consistency
 import Blog from './pages/Blog';
 import CreateBlogForm from './components/newBlog';
-
+import Profile from './pages/Profile' ;
 function App() {
   return (
     // This div is now your primary scroll container.
@@ -29,6 +29,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/newblog" element={<CreateBlogForm />} />
+        <Route path="/profile" element={<Profile />} />
+
       </Routes>
     </div>
   );

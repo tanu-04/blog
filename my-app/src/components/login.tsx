@@ -23,6 +23,7 @@ const Login: React.FC = () => {
         });
         const data = await response.json();
         window.location.href = data.redirectTo;
+        localStorage.setItem("username", username);
         console.log("Response from server:", data);
     } catch (error) {
         console.error("Error logging in:", error);

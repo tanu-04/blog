@@ -41,6 +41,7 @@ const Header: React.FC = () => {
             <ul className="flex space-x-6 text-lg font-medium">
                 <li><Link to="/login" className="hover:text-gray-300">Auth</Link></li>
                 <li><Link to="/blog" className="hover:text-gray-300">Blog</Link></li>
+                <li><Link to ="/profile" className="hover:text-gray-300">Profile</Link></li>
                 <li><a href="#contact" className="hover:text-gray-300">Contact</a></li>
             </ul>
             </nav>
