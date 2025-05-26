@@ -1,25 +1,31 @@
-// src/components/CreateBlogForm.tsx
-import React, { useState, type FormEvent } from 'react';
+import React, { useEffect, useState, type FormEvent } from 'react';
 import Header from './header';
-
 
 interface FormData {
   title: string;
   content: string;
   author: string;
-  imageUrl?: string; // Optional image URL
+  imageUrl?: string;
 }
 
 const CreateBlogForm: React.FC = () => {
+  const loggedInUser = localStorage.getItem("username") || ""; // get logged in username
+
   const [formData, setFormData] = useState<FormData>({
     title: '',
     content: '',
-    author: '',
+    author: loggedInUser, // set initially to logged user
     imageUrl: '',
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [newBlog, setBlogs] = useState([]);
+
+  useEffect(() => {
+    // If username changes in localStorage (unlikely), update author
+    setFormData((prev) => ({ ...prev, author: loggedInUser }));
+  }, [loggedInUser]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -29,6 +35,8 @@ const CreateBlogForm: React.FC = () => {
     }));
   };
 
+  // ... your fetch blogs logic here (unchanged)
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -36,7 +44,7 @@ const CreateBlogForm: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:5000/newBlog', { // Replace with your backend URL
+      const response = await fetch('http://localhost:5000/newBlog', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,9 +62,9 @@ const CreateBlogForm: React.FC = () => {
       setFormData({
         title: '',
         content: '',
-        author: '',
+        author: loggedInUser, // reset author to logged in user
         imageUrl: '',
-      }); // Clear form
+      });
       console.log('Success:', result);
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred.');
@@ -102,20 +110,7 @@ const CreateBlogForm: React.FC = () => {
             ></textarea>
           </div>
 
-          <div>
-            <label htmlFor="author" className="block text-sm font-medium text-white">
-              Author
-            </label>
-            <input
-              type="text"
-              id="author"
-              name="author"
-              value={formData.author}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-white rounded-md text-white shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
+          {/* Author field removed since it's auto-set */}
 
           <div>
             <label htmlFor="imageUrl" className="block text-sm font-medium text-white">

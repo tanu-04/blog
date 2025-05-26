@@ -26,6 +26,16 @@ const userSchema = new mongoose.Schema({
   passingYear: { type: String, default: "" },
   socialLink: { type: String, default: "" },
 });
+const blogSchema = new mongoose.Schema({
+  title: String,
+  content: String,
+  author: String, // store the username
+  imageUrl: String,
+  createdAt: { type: Date, default: Date.now },
+});
+
+const Blog = mongoose.model("Blog", blogSchema);
+
 
 const User = mongoose.model("User", userSchema);
 
@@ -114,6 +124,63 @@ app.put("/profile", async (req, res) => {
     res.status(500).send("Error updating profile.");
   }
 });
+app.post("/newBlog", async (req, res) => {
+  const { title, content, author, imageUrl } = req.body;
+
+  if (!author) {
+    return res.status(401).json({ message: "User not authenticated" });
+  }
+
+  try {
+    const user = await User.findOne({ username: author });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const newBlog = new Blog({ title, content, author, imageUrl });
+    await newBlog.save();
+
+    res.status(201).json({ message: "Blog created successfully!", blog: newBlog });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to create blog" });
+  }
+});
+// Get all blogs by a specific author
+// Get all blogs by a specific author
+app.get("/newBlog", async (req, res) => {
+  const { author } = req.query;
+
+  try {
+    const query = author ? { author } : {};
+    const blogs = await Blog.find(query).sort({ createdAt: -1 });
+    res.status(200).json(blogs);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch blogs" });
+  }
+});
+
+app.get("/profile", async (req, res) => {
+  const { username } = req.query;
+  try {
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json("User not found");
+
+    const blogs = await Blog.find({ author: username });
+
+    res.json({
+      username: user.username,
+      email: user.email || "",
+      name: user.name || "",
+      passingYear: user.passingYear || "",
+      socialLink: user.socialLink || "",
+      blogs,
+    });
+  } catch (err) {
+    res.status(500).send("Error fetching profile.");
+  }
+});
+
+
 
 
 app.listen(port, () => {

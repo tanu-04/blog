@@ -10,6 +10,13 @@ type ProfileType = {
   socialLink: string;
 };
 
+type BlogType = {
+  title: string;
+  content: string;
+  author: string;
+  imageUrl?: string;
+};
+
 const fields = ["username", "email", "name", "passingYear", "socialLink"] as const;
 type Field = typeof fields[number];
 
@@ -27,6 +34,8 @@ const Profile = () => {
 
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [blogs, setBlogs] = useState<BlogType[]>([]);
+  const [showBlogs, setShowBlogs] = useState(false);
 
   useEffect(() => {
     if (!loggedInUser) {
@@ -64,10 +73,21 @@ const Profile = () => {
     }
   };
 
+  const fetchBlogs = async () => {
+    const res = await fetch(`http://localhost:5000/newBlog?author=${loggedInUser}`);
+    const data = await res.json();
+    setBlogs(data);
+  };
+
+  const toggleBlogs = () => {
+    if (!showBlogs) fetchBlogs();
+    setShowBlogs(!showBlogs);
+  };
+
   return (
     <div className="min-h-screen w-full bg-neutral-900 text-white flex flex-col">
       <Header />
-      <main className="flex-grow flex items-center justify-center px-6 py-12">
+      <main className="flex-grow flex flex-col items-center justify-start px-6 py-12">
         <div className="w-full max-w-3xl bg-neutral-800 rounded-lg shadow-xl p-10">
           <h1 className="text-4xl font-extrabold mb-8 text-center">Your Profile</h1>
 
@@ -119,6 +139,36 @@ const Profile = () => {
               <p className="mt-4 text-center text-green-400 font-medium">{message}</p>
             )}
           </form>
+
+          {/* View Blogs Button */}
+          <div className="mt-8 text-center">
+            <button
+              onClick={toggleBlogs}
+              className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+            >
+              {showBlogs ? "Hide Blogs" : "View My Blogs"}
+            </button>
+          </div>
+
+          {/* Blogs List */}
+          {showBlogs && (
+            <div className="mt-6 space-y-6">
+              {blogs.length > 0 ? (
+                blogs.map((blog, idx) => (
+                  <div key={idx} className="p-4 bg-neutral-700 rounded shadow">
+                    <h3 className="text-xl font-bold text-cyan-300">{blog.title}</h3>
+                    <p className="text-sm text-gray-400 mt-1 italic">By {blog.author}</p>
+                    {blog.imageUrl && (
+                      <img src={blog.imageUrl} alt="Blog Visual" className="mt-3 rounded" />
+                    )}
+                    <p className="mt-2 text-gray-200">{blog.content}</p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-400 mt-4 text-center">No blogs found.</p>
+              )}
+            </div>
+          )}
         </div>
       </main>
     </div>
