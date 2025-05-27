@@ -5,6 +5,7 @@ import HomePage from './pages/Home'; // Renamed Home.tsx to HomePage for consist
 import Blog from './pages/Blog';
 import CreateBlogForm from './components/newBlog';
 import Profile from './pages/Profile' ;
+import BlogDetail from "./components/BlogDetail";
 function App() {
   return (
     // This div is now your primary scroll container.
@@ -30,7 +31,7 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/newblog" element={<CreateBlogForm />} />
         <Route path="/profile" element={<Profile />} />
-
+        <Route path="/blog/title/:title" element={<BlogDetail />} />
       </Routes>
     </div>
   );

@@ -3,27 +3,31 @@ import Header from './header';
 
 interface FormData {
   title: string;
+  description: string;
   content: string;
   author: string;
   imageUrl?: string;
+ // ✅ Added
 }
 
 const CreateBlogForm: React.FC = () => {
-  const loggedInUser = localStorage.getItem("username") || ""; // get logged in username
+  const loggedInUser = localStorage.getItem("username") || "";
 
   const [formData, setFormData] = useState<FormData>({
     title: '',
+    description: '',
     content: '',
-    author: loggedInUser, // set initially to logged user
+    author: loggedInUser,
     imageUrl: '',
+
   });
+
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [newBlog, setBlogs] = useState([]);
 
   useEffect(() => {
-    // If username changes in localStorage (unlikely), update author
     setFormData((prev) => ({ ...prev, author: loggedInUser }));
   }, [loggedInUser]);
 
@@ -34,8 +38,6 @@ const CreateBlogForm: React.FC = () => {
       [name]: value,
     }));
   };
-
-  // ... your fetch blogs logic here (unchanged)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -49,7 +51,7 @@ const CreateBlogForm: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData), // ✅ Corrected line
       });
 
       if (!response.ok) {
@@ -61,9 +63,11 @@ const CreateBlogForm: React.FC = () => {
       setMessage('Blog post created successfully!');
       setFormData({
         title: '',
+        description: '',
         content: '',
-        author: loggedInUser, // reset author to logged in user
+        author: loggedInUser,
         imageUrl: '',
+       
       });
       console.log('Success:', result);
     } catch (err: any) {
@@ -81,7 +85,7 @@ const CreateBlogForm: React.FC = () => {
         <h2 className="text-3xl font-bold text-white mb-6 text-center">Create New Blog Post</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="title" className="block text-white text-sm font-medium ">
+            <label htmlFor="title" className="block text-white text-sm font-medium">
               Title
             </label>
             <input
@@ -93,6 +97,20 @@ const CreateBlogForm: React.FC = () => {
               required
               className="mt-1 block w-full px-3 py-2 border border-white rounded-md text-white shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
+          </div>
+                    <div>
+            <label htmlFor="description" className="block text-sm font-medium text-white">
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              rows={3}
+              value={formData.description}
+              onChange={handleChange}
+              required
+              className="mt-1 block w-full px-3 py-2 border border-white text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            ></textarea>
           </div>
 
           <div>
@@ -109,8 +127,6 @@ const CreateBlogForm: React.FC = () => {
               className="mt-1 block w-full px-3 py-2 border border-white text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             ></textarea>
           </div>
-
-          {/* Author field removed since it's auto-set */}
 
           <div>
             <label htmlFor="imageUrl" className="block text-sm font-medium text-white">

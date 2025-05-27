@@ -12,7 +12,7 @@ type ProfileType = {
 
 type BlogType = {
   title: string;
-  content: string;
+  description: string;
   author: string;
   imageUrl?: string;
 };
@@ -161,7 +161,7 @@ const Profile = () => {
                     {blog.imageUrl && (
                       <img src={blog.imageUrl} alt="Blog Visual" className="mt-3 rounded" />
                     )}
-                    <p className="mt-2 text-gray-200">{blog.content}</p>
+                    <p className="mt-2 text-gray-200">{blog.description}</p>
                   </div>
                 ))
               ) : (

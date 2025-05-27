@@ -1,18 +1,23 @@
 // components/BlogCard.tsx
 import React from "react";
-
+import { Link } from "react-router-dom";
 interface BlogCardProps {
+    id: string;           // <-- add this line
     title: string;
     description: string;
 }
-
 const BlogCard: React.FC<BlogCardProps> = ({ title, description }) => {
     return (
         <div
             className="bg-neutral-800 border border-white rounded-lg p-6 mx-auto shadow-lg w-full my-4 cursor-pointer group" // Added 'group' class
             data-aos="fade-up"
+            
         >
-            <h2 className="text-xl font-semibold text-white mb-2 hover:scale-105 transition:transform duration-300">{title}</h2>
+        <h2 className="text-xl font-semibold text-white mb-2 hover:scale-105 transition-transform duration-300">
+        <Link to={`/blog/title/${encodeURIComponent(title)}`} className="hover:underline">
+            {title}
+        </Link>
+        </h2>
             <p className="text-lg text-white leading-relaxed">{description}</p>
             <div className="flex flex-row gap-5 pt-5">
                 <svg

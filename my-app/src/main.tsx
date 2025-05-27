@@ -8,6 +8,7 @@ import App from "./App.tsx";
 import CreateBlogForm from "./components/newBlog.tsx";
 import Signup from "./components/signup.tsx";
 import Profile from './pages/Profile' ;
+import BlogDetail from './components/BlogDetail.tsx';
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,12 @@ const router = createBrowserRouter([
     {
     path:"/profile",
     element:<Profile />
-  }
+  },
+ {
+  path: "/blog/title/:title",
+  element: <BlogDetail />
+}
+
 ]);
 
 createRoot(document.getElementById("root")!).render(
