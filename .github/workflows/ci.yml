@@ -6,9 +6,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.2
       - run: echo "hello world" > hello.txt
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v3.1.2
         with:
           name: hello-artifact
           path: hello.txt
