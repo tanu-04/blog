@@ -1,37 +1,14 @@
-name: CI - Vite React App
+name: Test Artifact Upload
 
-on:
-  push:
-    branches: [test]
-  pull_request:
-    branches: [test]
+on: [push]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository_tired
-        uses: actions/upload-artifact@v3.1.2
-
-
-      - name: Set up Node.js
-        uses: actions/upload-artifact@v3.1.2
-
+      - uses: actions/checkout@v3
+      - run: echo "hello world" > hello.txt
+      - uses: actions/upload-artifact@v3
         with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm install
-        working-directory: my-app
-
-      - name: Run tests with coverage
-        run: npm run test
-        working-directory: my-app
-
-      - name: Upload Coverage Report
-        uses: actions/upload-artifact@v3.1.2
-
-        with:
-          name: coverage-report
-          path: my-app/coverage/
+          name: hello-artifact
+          path: hello.txt
