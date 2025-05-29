@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository_tired
         uses: actions/upload-artifact@v3.1.2
 
 
