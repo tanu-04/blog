@@ -21,12 +21,14 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: my-app
 
       - name: Run tests with coverage
         run: npm run test
+        working-directory: my-app
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
-          path: coverage/
+          path: my-app/coverage/
