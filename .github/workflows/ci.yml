@@ -1,34 +1,29 @@
-name: CI - Vite React App
+name: CI Workflow
 
 on:
   push:
-    branches: [test]
+    branches:
+      - tanu
   pull_request:
-    branches: [test]
+    branches:
+      - tanu
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: npm install
         working-directory: my-app
+        run: npm ci
 
-      - name: Run tests with coverage
-        run: npm run test
+      - name: Build the project
         working-directory: my-app
+        run: npm run build
+        
 
-      - name: Upload Coverage Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-report
-          path: my-app/coverage/
+      - name: Run tests
+        working-directory: my-app
+        run: npm test
