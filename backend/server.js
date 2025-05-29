@@ -26,17 +26,26 @@ const userSchema = new mongoose.Schema({
   passingYear: { type: String, default: "" },
   socialLink: { type: String, default: "" },
 });
+
+const commentSchema = new mongoose.Schema({
+          // username of commenter
+  text: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+
 const blogSchema = new mongoose.Schema({
   title: String,
+  description: String, 
   content: String,
-  author: String, // store the username
+  author: String,
   imageUrl: String,
+  likes: { type: Number, default: 0 },
+  comments: [commentSchema],   // <-- commentSchema used here before declaration
   createdAt: { type: Date, default: Date.now },
 });
 
 const Blog = mongoose.model("Blog", blogSchema);
-
-
 const User = mongoose.model("User", userSchema);
 
 app.post("/testpost", (req, res) => {
@@ -125,7 +134,7 @@ app.put("/profile", async (req, res) => {
   }
 });
 app.post("/newBlog", async (req, res) => {
-  const { title, content, author, imageUrl } = req.body;
+  const { title, content, description, author, imageUrl } = req.body;
 
   if (!author) {
     return res.status(401).json({ message: "User not authenticated" });
@@ -135,7 +144,7 @@ app.post("/newBlog", async (req, res) => {
     const user = await User.findOne({ username: author });
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    const newBlog = new Blog({ title, content, author, imageUrl });
+    const newBlog = new Blog({ title, content, description, author, imageUrl }); // ✅ Include description
     await newBlog.save();
 
     res.status(201).json({ message: "Blog created successfully!", blog: newBlog });
@@ -179,6 +188,66 @@ app.get("/profile", async (req, res) => {
     res.status(500).send("Error fetching profile.");
   }
 });
+
+app.get("/blogs", async (req, res) => {
+  try {
+    const blogs = await Blog.find().sort({ createdAt: -1 });
+    res.status(200).json(blogs);
+  } catch (err) {
+    console.error("Error fetching blogs:", err);
+    res.status(500).json({ message: "Failed to fetch blogs" });
+  }
+});
+
+app.get("/blogs/title/:title", async (req, res) => {
+  try {
+    const blog = await Blog.findOne({ title: req.params.title });
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+    res.json(blog);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch blog" });
+  }
+});
+app.post("/blogs/:title/like", async (req, res) => {
+  try {
+    const blog = await Blog.findOneAndUpdate(
+      { title: req.params.title },
+      { $inc: { likes: 1 } },
+      { new: true }
+    );
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+    res.json({ likes: blog.likes });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to like blog" });
+  }
+});
+app.post('/blogs/:title/comment', async (req, res) => {
+  const title = req.params.title;
+  const { text } = req.body;  // only text now
+
+  if (!text) {
+    return res.status(400).json({ error: "Text is required" });
+  }
+
+  try {
+    const blog = await Blog.findOne({ title });
+    if (!blog) return res.status(404).json({ error: "Blog not found" });
+
+    const newComment = { text, createdAt: new Date() };
+    blog.comments.push(newComment);
+
+    await blog.save();
+
+    return res.json(blog.comments);  // send updated comments array
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+
 
 
 

@@ -6,6 +6,7 @@ import Blog from './pages/Blog';
 import CreateBlogForm from './components/newBlog';
 import Profile from './pages/Profile' ;
 import BlogDetail from "./components/BlogDetail";
+import Contact from "./components/Contact";
 function App() {
   return (
     // This div is now your primary scroll container.
@@ -32,6 +33,7 @@ function App() {
         <Route path="/newblog" element={<CreateBlogForm />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/blog/title/:title" element={<BlogDetail />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </div>
   );

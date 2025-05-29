@@ -1,47 +1,126 @@
-// components/BlogCard.tsx
-import React from "react";
-import { Link } from "react-router-dom";
-interface BlogCardProps {
-    id: string;           // <-- add this line
-    title: string;
-    description: string;
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+
+interface Comment {
+  author: string;
+  text: string;
+  createdAt?: string;
 }
-const BlogCard: React.FC<BlogCardProps> = ({ title, description }) => {
-    return (
-        <div
-            className="bg-neutral-800 border border-white rounded-lg p-6 mx-auto shadow-lg w-full my-4 cursor-pointer group" // Added 'group' class
-            data-aos="fade-up"
-            
-        >
-        <h2 className="text-xl font-semibold text-white mb-2 hover:scale-105 transition-transform duration-300">
-        <Link to={`/blog/title/${encodeURIComponent(title)}`} className="hover:underline">
-            {title}
-        </Link>
-        </h2>
-            <p className="text-lg text-white leading-relaxed">{description}</p>
-            <div className="flex flex-row gap-5 pt-5">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-7 pt-1 pb-0 mb-0 stroke-white" // Target hover with 'group-hover' and transition
-                >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 stroke-white">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
-                </svg>
 
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 stroke-white">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
-                </svg>
-            </div>
+interface BlogCardProps {
+  title: string;
+  description: string;
+  initialLikes?: number;
+  initialComments?: Comment[];
+  currentUsername: string; // to send as author for comments
+}
 
+export default function BlogCard({ title, description, initialLikes = 0, initialComments = [], currentUsername }: BlogCardProps) {
+  const [likes, setLikes] = useState(0);
+  const [showComments, setShowComments] = useState(false);
+  const [comments, setComments] = useState<Comment[]>(initialComments);
+  const [commentInput, setCommentInput] = useState('');
+  const [loadingLike, setLoadingLike] = useState(false);
+  const [loadingComment, setLoadingComment] = useState(false);
 
-        </div>
-    );
+    const handleLike = async () => {
+    console.log("Like button clicked");
+    if (loadingLike) return;
+    setLoadingLike(true);
+    try {
+        const response = await axios.post(`http://localhost:5000/blogs/${encodeURIComponent(title)}/like`);
+        console.log("Like response:", response.data);
+        setLikes(response.data.likes);
+    } catch (error) {
+        console.error("Error liking blog:", error);
+    } finally {
+        setLoadingLike(false);
+    }
+    };
+  const handleToggleComments = () => {
+    setShowComments((prev) => !prev);
+  };
+
+const handleCommentPost = async () => {
+  if (commentInput.trim() === '') return;
+
+  if (loadingComment) return;
+  setLoadingComment(true);
+
+  try {
+    const response = await axios.post(`http://localhost:5000/blogs/${encodeURIComponent(title)}/comment`, {
+      // Remove author field here:
+      text: commentInput.trim(),
+    });
+
+    setComments(response.data); // backend returns updated comments array
+    setCommentInput('');
+  } catch (error) {
+    console.error("Error posting comment:", error);
+  } finally {
+    setLoadingComment(false);
+  }
 };
 
-export default BlogCard;
+  return (
+    <div className="border p-4 rounded-lg shadow-lg w-full bg-black text-white">
+      <Link to={`/blog/title/${encodeURIComponent(title)}`} className="text-xl font-bold hover:underline block mb-2">
+        {title}
+      </Link>
+      <p className="text-gray-300 mb-4">{description}</p>
+
+      <div className="flex items-center space-x-4">
+        <button
+          type="button"
+          onClick={handleLike}
+          disabled={loadingLike}
+          className={`flex items-center space-x-1 text-red-500 hover:text-red-600 ${loadingLike ? "opacity-50 cursor-not-allowed" : ""}`}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" stroke="none">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 1 4.5 2.09C13.09 4 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+          <span>{likes}</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={handleToggleComments}
+          className="flex items-center space-x-1 text-blue-500 hover:text-blue-600"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 3.866-3.582 7-8 7a8.986 8.986 0 01-4.04-1.022L3 19l1.022-5.04A8.986 8.986 0 013 12c0-4.418 3.134-8 7-8s7 3.582 7 8z" />
+          </svg>
+          <span>{comments.length}</span>
+        </button>
+      </div>
+
+      {showComments && (
+        <div className="mt-4 bg-gray-100 p-3 rounded-md">
+          <input
+            type="text"
+            placeholder="Write a comment..."
+            value={commentInput}
+            onChange={(e) => setCommentInput(e.target.value)}
+            className="w-full p-2 border rounded mb-2 bg-gray-400 text-black"
+          />
+          <button
+            type="button"
+            onClick={handleCommentPost}
+            disabled={loadingComment}
+            className={`bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 ${loadingComment ? "opacity-50 cursor-not-allowed" : ""}`}
+          >
+            Post
+          </button>
+            <div>
+            {comments.map((cmt, index) => (
+            <div key={index} className="bg-gray-400 p-2 rounded shadow-sm border break-words text-black">
+                <b>{cmt.author ?? "Anonymous"}:</b> {cmt.text}
+            </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

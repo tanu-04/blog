@@ -9,7 +9,7 @@ import CreateBlogForm from "./components/newBlog.tsx";
 import Signup from "./components/signup.tsx";
 import Profile from './pages/Profile' ;
 import BlogDetail from './components/BlogDetail.tsx';
-
+import Contact from "./components/Contact";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,6 +38,10 @@ const router = createBrowserRouter([
  {
   path: "/blog/title/:title",
   element: <BlogDetail />
+},
+ {
+  path: "/contact",
+  element: <Contact />
 }
 
 ]);

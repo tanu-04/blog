@@ -9,10 +9,12 @@ interface Blog {
   title: string;
   description: string;
   author: string;
-  date: string;
-  readTime: string;
-  views: number;
-  comments: number;
+  date?: string;
+  readTime?: string;
+  views?: number;
+  likes: number;            // add likes
+  comments: Array<any>; 
+  commentsCount: number;    // add comments array to get length
 }
 
 const Blog = () => {
@@ -23,7 +25,13 @@ const Blog = () => {
       try {
         const res = await fetch('http://localhost:5000/blogs'); // change URL as needed
         const data = await res.json();
-        setBlogs(data);
+        
+        const blogsWithCommentsCount = data.map((blog: any) => ({
+          ...blog,
+          commentsCount: blog.comments ? blog.comments.length : 0,
+        }));
+        setBlogs(blogsWithCommentsCount);
+
       } catch (error) {
         console.error('Error fetching blogs:', error);
       }
@@ -49,11 +57,14 @@ const Blog = () => {
         {blogs.map((blog) => (
           <BlogCard
             key={blog._id}
-            id={blog._id}  // pass id here
+            id={blog._id}
             title={blog.title}
             description={blog.description}
+            likes={blog.likes}
+            commentsCount={blog.commentsCount}
           />
-        ))}   
+        ))}
+ 
            
         </div>
       </main>
