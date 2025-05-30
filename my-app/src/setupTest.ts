@@ -1,5 +1,5 @@
-// src/setupTests.ts
-import '@testing-library/jest-dom';
+// src/setupTest.ts
+import '@testing-library/jest-dom/vitest';
 import { beforeAll, vi } from 'vitest';
 
 beforeAll(() => {

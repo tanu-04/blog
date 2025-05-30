@@ -1,8 +1,16 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { describe,it,  expect } from 'vitest';
 import App from './App';
+import { MemoryRouter } from 'react-router-dom';
+describe('App', () => {
+  it('renders hello world text', () => {
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
 
-test('renders hello world text', () => {
-  render(<App />);
-  expect(screen.getByText(/hello world/i)).toBeInTheDocument();
+    expect(screen.getByText(/hello world/i)).toBeInTheDocument();
+  });
 });

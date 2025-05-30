@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["vitest", "vite/client"],
+    "types": ["vitest", "vite/client",  "@testing-library/jest-dom", "node", "jsdom"],
       
     "target": "ES2017",
     "lib": ["DOM", "ES2017", "DOM.Iterable"]},
