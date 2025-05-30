@@ -12,24 +12,26 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # 🔧 Build and push backend image
+    # Build and push backend image
     - name: Build and Push Backend (server) Docker Image
       uses: mr-smithers-excellent/docker-build-push@v4
       with:
         image: tanushree0411/blog_repo
+        tag: backend
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        context: ./backend
-        dockerfile: ./backend/Dockerfile
+        directory: ./backend
+        dockerfile: Dockerfile
 
-    # 🔧 Build and push frontend image
+    # Build and push frontend image
     - name: Build and Push Frontend (client) Docker Image
       uses: mr-smithers-excellent/docker-build-push@v4
       with:
-        image: tanushree0411/blog_repo:frontend
+        image: tanushree0411/blog_repo
+        tag: frontend
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        context: ./my-app
-        dockerfile: ./my-app/Dockerfile
+        directory: ./my-app
+        dockerfile: Dockerfile
