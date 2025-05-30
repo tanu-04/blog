@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
+import {  Link } from 'react-router-dom';
 // If you want modal animations, you'd keep this import for the modal only:
 // import { useTransition, animated } from '@react-spring/web';
 
-import Header from '../components/header'; // Assuming Header is rendered here or globally in App.js
+//import Header from '../components/header'; // Assuming Header is rendered here or globally in App.js
 
 const HomePage = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState('');
 
-  const openModal = (platform) => {
+  const openModal = (platform: string )  => {
     setSelectedPlatform(platform);
     setModalOpen(true);
   };
