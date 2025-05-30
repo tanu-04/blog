@@ -19,16 +19,16 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies in my-app
+      - name: Install dependencies
         run: npm install
-        working-directory: ./my-app
+        working-directory: ./blog/my-app
 
-      - name: Run tests with coverage in my-app
-        run: npm run test
-        working-directory: ./my-app
+      - name: Run tests with coverage
+        run: npm run test -- --coverage
+        working-directory: ./blog/my-app
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: my-app/coverage/
+          path: blog/my-app/coverage/
