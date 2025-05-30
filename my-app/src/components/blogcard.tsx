@@ -11,12 +11,10 @@ interface Comment {
 interface BlogCardProps {
   title: string;
   description: string;
-  initialLikes?: number;
   initialComments?: Comment[];
-  currentUsername: string; // to send as author for comments
 }
 
-export default function BlogCard({ title, description, initialLikes = 0, initialComments = [], currentUsername }: BlogCardProps) {
+export default function BlogCard({ title, description, initialComments = [] }: BlogCardProps) {
   const [likes, setLikes] = useState(0);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<Comment[]>(initialComments);
@@ -24,44 +22,44 @@ export default function BlogCard({ title, description, initialLikes = 0, initial
   const [loadingLike, setLoadingLike] = useState(false);
   const [loadingComment, setLoadingComment] = useState(false);
 
-    const handleLike = async () => {
+  const handleLike = async () => {
     console.log("Like button clicked");
     if (loadingLike) return;
     setLoadingLike(true);
     try {
-        const response = await axios.post(`http://localhost:5000/blogs/${encodeURIComponent(title)}/like`);
-        console.log("Like response:", response.data);
-        setLikes(response.data.likes);
+      const response = await axios.post(`http://localhost:5000/blogs/${encodeURIComponent(title)}/like`);
+      console.log("Like response:", response.data);
+      setLikes(response.data.likes);
     } catch (error) {
-        console.error("Error liking blog:", error);
+      console.error("Error liking blog:", error);
     } finally {
-        setLoadingLike(false);
+      setLoadingLike(false);
     }
-    };
+  };
+
   const handleToggleComments = () => {
     setShowComments((prev) => !prev);
   };
 
-const handleCommentPost = async () => {
-  if (commentInput.trim() === '') return;
+  const handleCommentPost = async () => {
+    if (commentInput.trim() === '') return;
 
-  if (loadingComment) return;
-  setLoadingComment(true);
+    if (loadingComment) return;
+    setLoadingComment(true);
 
-  try {
-    const response = await axios.post(`http://localhost:5000/blogs/${encodeURIComponent(title)}/comment`, {
-      // Remove author field here:
-      text: commentInput.trim(),
-    });
+    try {
+      const response = await axios.post(`http://localhost:5000/blogs/${encodeURIComponent(title)}/comment`, {
+        text: commentInput.trim(),
+      });
 
-    setComments(response.data); // backend returns updated comments array
-    setCommentInput('');
-  } catch (error) {
-    console.error("Error posting comment:", error);
-  } finally {
-    setLoadingComment(false);
-  }
-};
+      setComments(response.data); // backend returns updated comments array
+      setCommentInput('');
+    } catch (error) {
+      console.error("Error posting comment:", error);
+    } finally {
+      setLoadingComment(false);
+    }
+  };
 
   return (
     <div className="border p-4 rounded-lg shadow-lg w-full bg-black text-white">
@@ -75,6 +73,8 @@ const handleCommentPost = async () => {
           type="button"
           onClick={handleLike}
           disabled={loadingLike}
+          // Added aria-label for unique identification
+          aria-label={`Like button, current likes: ${likes}`}
           className={`flex items-center space-x-1 text-red-500 hover:text-red-600 ${loadingLike ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" stroke="none">
@@ -86,6 +86,8 @@ const handleCommentPost = async () => {
         <button
           type="button"
           onClick={handleToggleComments}
+          // Added aria-label for unique identification
+          aria-label={`Toggle comments, current comments: ${comments.length}`}
           className="flex items-center space-x-1 text-blue-500 hover:text-blue-600"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -112,11 +114,11 @@ const handleCommentPost = async () => {
           >
             Post
           </button>
-            <div>
+          <div>
             {comments.map((cmt, index) => (
-            <div key={index} className="bg-gray-400 p-2 rounded shadow-sm border break-words text-black">
+              <div key={index} className="bg-gray-400 p-2 rounded shadow-sm border break-words text-black">
                 <b>{cmt.author ?? "Anonymous"}:</b> {cmt.text}
-            </div>
+              </div>
             ))}
           </div>
         </div>

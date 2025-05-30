@@ -55,14 +55,15 @@ const Blog = () => {
 
         <div className="space-y-6">
         {blogs.map((blog) => (
-          <BlogCard
-            key={blog._id}
-            id={blog._id}
-            title={blog.title}
-            description={blog.description}
-            likes={blog.likes}
-            commentsCount={blog.commentsCount}
-          />
+        <BlogCard
+          key={blog._id}
+          id={blog._id}
+          title={blog.title}
+          description={blog.description}
+          //initialLikes={blog.likes}
+          initialComments={blog.comments}  // pass whole comments array
+         // pass a dummy username or get from auth context
+        />
         ))}
  
            
