@@ -8,7 +8,7 @@ global.fetch = vi.fn(() =>
     ok: true,
     json: () =>
       Promise.resolve({
-        _id: '1',
+        _id: '2',
         title: 'Test Blog',
         description: 'This is a test blog.',
         content: 'This is the blog content.',
