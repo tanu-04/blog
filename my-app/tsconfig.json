@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "types": ["vitest", "vite/client"]},
+    "types": ["vitest", "vite/client"],
+      
+    "target": "ES2017",
+    "lib": ["DOM", "ES2017", "DOM.Iterable"]},
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
