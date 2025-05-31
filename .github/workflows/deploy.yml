@@ -16,7 +16,7 @@ jobs:
     - name: Build and Push Backend (server) Docker Image
       uses: mr-smithers-excellent/docker-build-push@v4
       with:
-        image: tanushree0411/blog_repo
+        image: tanushree0411/blog_repo2
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
@@ -27,7 +27,7 @@ jobs:
     - name: Build and Push Frontend (client) Docker Image
       uses: mr-smithers-excellent/docker-build-push@v4
       with:
-        image: tanushree0411/blog_repo
+        image: tanushree0411/blog_repo2
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
