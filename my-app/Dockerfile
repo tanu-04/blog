@@ -1,5 +1,5 @@
 # Base image
-FROM node:18-alpine
+FROM node:18
 
 # Set working directory
 WORKDIR /app
@@ -11,8 +11,10 @@ RUN npm install
 # Copy the rest of the app
 COPY . .
 
-# Build the app
-RUN npm run build || (cat /root/.npm/_logs/*-debug-0.log && false)
+# Print error logs if build fails
+#RUN npm run build || (echo "BUILD FAILED" && cat /root/.npm/_logs/* || true)
+# or this alternative if logs are not under /root:
+RUN npm run build || (find . -name "*-debug-0.log" -exec cat {} \; || true)
 
 # Expose Vite preview server port
 EXPOSE 4173
