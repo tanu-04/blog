@@ -7,7 +7,7 @@ services:
     ports:
       - "3000:3000"  # or whatever port your server.js listens on
     volumes:
-      - ./backend:/app
+ 
     restart: unless-stopped
 
   frontend:
@@ -15,7 +15,6 @@ services:
       context: ./my-app
     ports:
       - "8080:8080"  # default Vue or React dev server port
-    volumes:
-      - ./my-app:/app
+
     stdin_open: true
     tty: true
