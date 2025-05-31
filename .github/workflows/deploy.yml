@@ -2,7 +2,7 @@ name: RITBuddy CD
 
 on:
   push:
-    branches: [test2]
+    branches: [main]
 
 jobs:
   build-and-push:
