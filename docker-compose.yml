@@ -1,16 +1,21 @@
-version: '3'
+version: '3.8'
 
 services:
-  client:
-    build: ./client
+  backend:
+    build:
+      context: ./backend
     ports:
-      - "80:3000"
-    restart: always
+      - "3000:3000"  # or whatever port your server.js listens on
+    volumes:
+      - ./backend:/app
+    restart: unless-stopped
 
-  server:
-    build: ./server
+  frontend:
+    build:
+      context: ./my-app
     ports:
-      - "5000:5000"
-    restart: always
-    environment:
-      - MONGO_URI=mongodb://your-mongo-url
+      - "8080:8080"  # default Vue or React dev server port
+    volumes:
+      - ./my-app:/app
+    stdin_open: true
+    tty: true
