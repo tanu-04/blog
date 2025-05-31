@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -13,10 +13,10 @@ interface BlogCardProps {
   description: string;
   initialLikes?: number;
   initialComments?: Comment[];
-  currentUsername: string; // to send as author for comments
+ // currentUsername: string; // to send as author for comments
 }
 
-export default function BlogCard({ title, description, initialLikes = 0, initialComments = [], currentUsername }: BlogCardProps) {
+export default function BlogCard({ title, description,  initialComments = [] }: BlogCardProps) {
   const [likes, setLikes] = useState(0);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<Comment[]>(initialComments);

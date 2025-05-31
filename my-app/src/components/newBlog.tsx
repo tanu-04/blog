@@ -25,7 +25,7 @@ const CreateBlogForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [newBlog, setBlogs] = useState([]);
+ // const [newBlog, setBlogs] = useState([]);
 
   useEffect(() => {
     setFormData((prev) => ({ ...prev, author: loggedInUser }));

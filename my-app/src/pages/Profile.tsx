@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/header";
 
@@ -18,7 +18,7 @@ type BlogType = {
 };
 
 const fields = ["username", "email", "name", "passingYear", "socialLink"] as const;
-type Field = typeof fields[number];
+//type Field = typeof fields[number];
 
 const Profile = () => {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 // pages/Blog.tsx
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/header';
 import BlogCard from '../components/blogcard';
@@ -57,11 +57,11 @@ const Blog = () => {
         {blogs.map((blog) => (
           <BlogCard
             key={blog._id}
-            id={blog._id}
+            //id={blog._id}
             title={blog.title}
             description={blog.description}
-            likes={blog.likes}
-            commentsCount={blog.commentsCount}
+            //likes={blog.likes}
+            initialComments={blog.comments} 
           />
         ))}
  

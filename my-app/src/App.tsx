@@ -1,4 +1,4 @@
-import React from 'react';
+//import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/header';
 import HomePage from './pages/Home'; // Renamed Home.tsx to HomePage for consistency
