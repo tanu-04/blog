@@ -48,7 +48,7 @@ const Blog = () => {
           <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-center">All Posts</h1>
           <Link to="/newblog">
             <button className="p-3 bg-neutral border border-white text-white cursor-pointer">
-              NewBlog
+              create new blog page
             </button>
           </Link>
         </div>
