@@ -1,4 +1,4 @@
-name: RITBuddy_CD
+name: CD_LinkedRIT
 
 on:
   push:
